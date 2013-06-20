@@ -6,9 +6,9 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME           => 'Apache2::HideFileExtension',
-    VERSION_FROM   => 'lib/Apache2/HideFileExtension.pm',
-    ABSTRACT_FROM  => 'lib/Apache2/HideFileExtension.pm',
+    NAME           => 'ModPerl::PSGI',
+    VERSION_FROM   => 'lib/ModPerl/PSGI.pm',
+    ABSTRACT_FROM  => 'lib/ModPerl/PSGI.pm',
     AUTHOR         => 'OGATA Tetsuji <tetsuji.ogata at cpan.org>',
     PREREQ_PM      => {
         'Apache2::Const'       => 0,
@@ -20,8 +20,8 @@ WriteMakefile(
     META_MERGE     => {
         resources => {
             license    => 'http://dev.perl.org/licenses/',
-            bugtracker => 'https://github.com/xtetsuji/p5-Apache2-HideFileExtension/issues',
-            repository => 'git://github.com/xtetsuji/p5-Apache2-HideFileExtension.git',
+            bugtracker => 'https://github.com/xtetsuji/p5-ModPerl-PSGI/issues',
+            repository => 'git://github.com/xtetsuji/p5-ModPerl-PSGI.git',
         },
     },
     LISENSE        => "perl",
