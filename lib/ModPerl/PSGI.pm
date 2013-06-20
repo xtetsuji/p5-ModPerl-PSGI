@@ -373,7 +373,7 @@ ModPerl::PSGI - Lightweight PSGI adaptor for mod_perl2
    # you chan choice "perl-script" or "modperl" for handler.
    SetHandler perl-script
    PerlResponseHandler ModPerl::PSGI
-   ModPerlPSGIApp /real/path/to/foo/app.psgi
+   PerlSetVar psgi_app /real/path/to/foo/app.psgi
  </Location>
 
 =head1 DESCRIPTION
