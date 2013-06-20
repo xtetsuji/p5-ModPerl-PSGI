@@ -370,10 +370,90 @@ ModPerl::PSGI - Lightweight PSGI adaptor for mod_perl2
 
  # e.g. in Location or VirtualHost directive
  <Location /path/to/foo>
+   # you chan choice "perl-script" or "modperl" for handler.
+   SetHandler perl-script
+   PerlResponseHandler ModPerl::PSGI
    ModPerlPSGIApp /real/path/to/foo/app.psgi
  </Location>
 
 =head1 DESCRIPTION
+
+This module is yet another PSGI implementation on mod_perl2.
+
+This concept likes L<Plack>'s L<Plack::Handler::Apache2>,
+but this module has some advantages:
+
+=head2 Many MPM support
+
+L<Plack::Handler::Apache2> supports only prefork MPM
+when this document is written.
+However L<ModPerl::PSGI> supports "prefork", "worker" and "event".
+In future, it will supports rest MPMs e.g. "mpm_winnt".
+
+See L<http://httpd.apache.org/docs/2.4/mpm.html> to know Apache MPM.
+
+=head2 support "modperl" handler offically
+
+You have to set (Add|Set)Handler perl-script on L<Plack::Handler::Apache2>.
+ModPerl::PSGI support "(Add|Set)Handler) modperl" offically and
+some low cost implementation *perlhaps*.
+
+=head2 Very low dependencies
+
+L<Plack::Handler::Apache2> has L<Plack>'s dependencies.
+It is not huge, but it is not few too.
+If Your environment has some restriction of module installation,
+maybe you can not ignore L<Plack>'s dependencies.
+
+ModPerl::PSGI depends L<ONLY> mod_perl2 and Perl5.8 later core moduels.
+
+=head2 Some process is delegated Apache Portable Runtime (apr)
+
+For example, L<Plack> uses L<URI> and L<URI::Escape> for
+URI parsing and processing.
+In ModPerl::PSGI, this parsing and processing are delegated
+mod_perl API and "Apache Portable Runtime" (APR) API.
+Those implementes are C and glued by Perl XS.
+
+=head2 Only on Apache server
+
+You may know combination of "plackup" and web server(Apache/Nginx)'s
+reverse proxy for deploy PSGI app.
+However this practice is not only one server about web server.
+If you wish to opration that web server is only one,
+then this concept is that you are comfortable.
+
+Do you care Apache process size on this approach?
+Use L<Apache2::SizeLimit> module for this problem
+if it become actual.
+
+For your adovice, any persistent process have no small the problem.
+Your operation skill is tried.
+
+=head1 SOME LIMITATION AND NOT EASY POINT
+
+L<Plack> has B<great> modules L<Plack::Request> and L<Plack::Response>.
+Those modules takes you to be convenient to treat of PSGI's C<$env>.
+But ModPerl::PSGI does not offer similar solution yet.
+
+If you use L<Mojolicious>, It have full function, e.g.
+L<Mojo::Message::Request>.
+
+=head1 TODO
+
+=over
+
+=item More documentation:
+mod_perl2 introduction, some WAF joint (especially Mojolicious)...
+
+=item More performance up
+
+Contribution to Plack core project.
+ModPerl::PSGI is experiment of Plac::Handler::Apache2 on the technical side.
+
+=item Writing mod_perl1 version.
+
+=back
 
 =head1 SEE ALSO
 
@@ -386,7 +466,7 @@ ModPerl::PSGI depends B<ONLY> Perl 5.8 core and mod_perl2 core modules.
 
 =head1 AUTHOR
 
-OGATA Tetsuji, E<lt>ogata {at} gmail.comE<gt>
+OGATA Tetsuji, E<lt>tetsuji.ogata {at} gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
