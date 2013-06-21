@@ -370,7 +370,7 @@ ModPerl::PSGI - Lightweight PSGI adaptor for mod_perl2
 
  # e.g. in Location or VirtualHost directive
  <Location /path/to/foo>
-   # you chan choice "perl-script" or "modperl" for handler.
+   # you can choice "perl-script" or "modperl" for handler.
    SetHandler perl-script
    PerlResponseHandler ModPerl::PSGI
    PerlSetVar psgi_app /real/path/to/foo/app.psgi
@@ -427,7 +427,7 @@ Do you care Apache process size on this approach?
 Use L<Apache2::SizeLimit> module for this problem
 if it become actual.
 
-For your adovice, any persistent process have no small the problem.
+For your advice, any persistent process have no small the problem.
 Your operation skill is tried.
 
 =head1 SOME LIMITATION AND NOT EASY POINT
@@ -444,6 +444,7 @@ L<Mojo::Message::Request>.
 =over
 
 =item More documentation:
+
 mod_perl2 introduction, some WAF joint (especially Mojolicious)...
 
 =item More performance up
