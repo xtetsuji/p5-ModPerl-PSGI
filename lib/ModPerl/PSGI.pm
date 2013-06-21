@@ -415,7 +415,7 @@ In ModPerl::PSGI, this parsing and processing are delegated
 mod_perl API and "Apache Portable Runtime" (APR) API.
 Those implementes are C and glued by Perl XS.
 
-=head2 Only on Apache server
+=head2 Only on Apache web server
 
 You may know combination of "plackup" and web server(Apache/Nginx)'s
 reverse proxy for deploy PSGI app.
