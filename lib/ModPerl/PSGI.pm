@@ -1,4 +1,4 @@
-package ModPerl::PSGI;
+package Rmail::Manager::PSGI::Handler::ModPerl;
 # ref: http://search.cpan.org/~miyagawa/PSGI-1.101/PSGI.pod
 # ref: https://gist.github.com/gardejo/398635/
 
@@ -27,7 +27,7 @@ use APR::URI             ();
 use constant TRUE           => 1==1;
 use constant FALSE          => !TRUE;
 use constant IS_THREADED    => Apache2::MPM->is_threaded;
-use constant IS_NONBLOCKING => lc(Apache2::MPM->show) =~ /^(?:worker|event)$/;
+use constant IS_NONBLOCKING => lc(Apache2::MPM->show) =~ /^(?:worker|event)$/ ? TRUE : FALSE;
 use constant SERVER_NAME    => Apache2::ServerUtil->server->server_hostname;
 use constant SERVER_PORT    => Apache2::ServerUtil->server->port;
 
@@ -286,17 +286,18 @@ sub _handle_response {
     $r->status($status);
 
     # see: Plack::Util#foreach
-    if ( ref $body eq 'ARRAY' ) {
-        for my $line (@$body) {
-            $r->print($line) if length $line;
-        }
-    }
-    elsif ( Scalar::Util::blessed($body)
+    if ( Scalar::Util::blessed($body)
             and $body->can('path')
             and my $path = $body->path) {
         $r->sendfile($path);
     }
-    elsif (defined $body && Scalar::Util::openhandle($body)) {
+    elsif ( ref $body eq 'ARRAY' ) {
+        for my $line (@$body) {
+            $r->print($line) if length $line;
+        }
+        $r->rflush;
+    }
+    elsif ( defined $body ) {
         local $/ = \65536 unless ref $/;
         while (defined(my $line = $body->getline)) {
             $r->print($line) if length $line;
@@ -304,9 +305,9 @@ sub _handle_response {
         $body->close;
         $r->rflush;
     }
-#     else {
-#         return ModPerl::PSGI::Internal::ResponseObject->new($r);
-#     }
+     else {
+         return ModPerl::PSGI::Internal::ResponseObject->new($r);
+    }
 
     return TRUE; # This value may be trashed at void context.
 }
