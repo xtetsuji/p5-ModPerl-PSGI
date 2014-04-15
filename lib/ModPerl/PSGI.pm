@@ -1,4 +1,4 @@
-package Rmail::Manager::PSGI::Handler::ModPerl;
+package ModPerl::PSGI;
 # ref: http://search.cpan.org/~miyagawa/PSGI-1.101/PSGI.pod
 # ref: https://gist.github.com/gardejo/398635/
 
